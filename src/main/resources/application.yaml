@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: finito
+  datasource:
+    url: jdbc:sqlite:hackathon.db
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+hackathon:
+  public-url: https://your-ngrok-id.ngrok-free.app
+
