@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface InventoryRepository extends JpaRepository<InventoryItem, Long> {
     List<InventoryItem> findByUserId(String userId);
 
+    // 🆕 Find by name (case-insensitive)
     Optional<InventoryItem> findByUserIdAndNameIgnoreCase(String userId, String name);
 }

@@ -18,7 +18,6 @@ public class InventoryItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // The link to the "Context Injected" user ID
     @Column(nullable = false)
     private String userId;
 
@@ -27,9 +26,14 @@ public class InventoryItem {
 
     private Double quantity;
 
-    private String unit; // e.g., "kg", "count", "liters"
+    private String unit;
 
-    // Helper to check stock levels
+    // 🆕 Visual Consistency with ShopProduct
+    private String category; // e.g., "Protein"
+
+    @Column(length = 1000)
+    private String imageUrl; // e.g., "https://placehold.co/..."
+
     public boolean isLowStock() {
         return quantity != null && quantity < 1.0;
     }
