@@ -12,5 +12,10 @@ public interface ShopRepository extends JpaRepository<ShopProduct, Long> {
     List<ShopProduct> findByNameContainingIgnoreCase(String name);
 
     // Used by the Dashboard and Agent to see the full catalog
-    List<ShopProduct> findByInStockTrue();
+    org.springframework.data.domain.Page<ShopProduct> findByInStockTrue(
+            org.springframework.data.domain.Pageable pageable);
+
+    // Used for category-based filtering
+    org.springframework.data.domain.Page<ShopProduct> findByCategoryIgnoreCase(String category,
+            org.springframework.data.domain.Pageable pageable);
 }

@@ -15,9 +15,12 @@ public class InventoryDataSeeder {
     CommandLineRunner initDatabase(InventoryRepository inventoryRepo, UserProfileRepository profileRepo) {
         return args -> {
             // 1. Seed Profile (The "Digital Twin")
+            // Use a fixed Hex ID for consistency (MD5 of "Alice" or similar pattern)
+            String defaultUserId = "416c69636544656661756c7455736572"; // Hex for "AliceDefaultUser"
+
             if (profileRepo.count() == 0) {
                 profileRepo.save(UserProfile.builder()
-                        .userId("Alice")
+                        .userId(defaultUserId)
                         .email("alice@example.com")
                         .displayName("Alice the Architect")
                         .currentGoal("Sustainable Energy")
@@ -26,13 +29,13 @@ public class InventoryDataSeeder {
                         .weight(65.5) // kg
                         .height(170.0) // cm
                         .build());
-                System.out.println("✅ Digital Twin 'Alice' created with Weight/Height stats.");
+                System.out.println("✅ Digital Twin 'Alice' created with ID: " + defaultUserId);
             }
 
             if (inventoryRepo.count() == 0) {
                 // 1. Salt (Essential, usually in stock)
                 inventoryRepo.save(InventoryItem.builder()
-                        .userId("Alice")
+                        .userId(defaultUserId)
                         .name("Salt")
                         .quantity(1.0)
                         .unit("kg")
@@ -42,7 +45,7 @@ public class InventoryDataSeeder {
 
                 // 2. Olive Oil (Essential)
                 inventoryRepo.save(InventoryItem.builder()
-                        .userId("Alice")
+                        .userId(defaultUserId)
                         .name("Olive Oil")
                         .quantity(0.5)
                         .unit("liters")
@@ -52,7 +55,7 @@ public class InventoryDataSeeder {
 
                 // 3. Rice (Partially stocked)
                 inventoryRepo.save(InventoryItem.builder()
-                        .userId("Alice")
+                        .userId(defaultUserId)
                         .name("Jasmine Rice")
                         .quantity(2.0)
                         .unit("kg")

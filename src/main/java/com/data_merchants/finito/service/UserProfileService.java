@@ -15,6 +15,28 @@ public class UserProfileService {
 
     private final UserProfileRepository profileRepo;
 
+    @Transactional
+    public UserProfile createUser(com.data_merchants.finito.dto.CreateUserRequest request) {
+        // Auto-generate a hex string ID (UUID without hyphens)
+        String generatedId = java.util.UUID.randomUUID().toString().replace("-", "");
+
+        UserProfile newProfile = UserProfile.builder()
+                .userId(generatedId)
+                .email(request.email())
+                .displayName(request.displayName())
+                .weight(request.weight())
+                .height(request.height())
+                .currentGoal(request.currentGoal())
+                .dietaryRestrictions(request.dietaryRestrictions())
+                .dailyCalorieTarget(request.dailyCalorieTarget())
+                .build();
+
+        UserProfile saved = profileRepo.save(newProfile);
+
+        log.info("👤 NEW USER CREATED: {}", saved.getUserId());
+        return saved;
+    }
+
     public UserProfile getProfile(String userId) {
         return profileRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Digital Twin not found for: " + userId));

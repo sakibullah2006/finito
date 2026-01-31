@@ -7,6 +7,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,9 +23,18 @@ public class ShopController {
     private final ShopRepository shopRepo;
 
     @GetMapping("/catalog")
-    @Operation(summary = "Get Full Catalog", description = "Retrieves a list of all products currently in stock. Use this to discover what items can be ordered.")
-    public ResponseEntity<List<ShopProduct>> getCatalog() {
-        return ResponseEntity.ok(shopRepo.findByInStockTrue());
+    @Operation(summary = "Get Full Catalog", description = "Retrieves a list of all products currently in stock. Supports category filtering and pagination.")
+    public ResponseEntity<Page<ShopProduct>> getCatalog(
+            @RequestParam(required = false) String category,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (category != null && !category.isBlank()) {
+            return ResponseEntity.ok(shopRepo.findByCategoryIgnoreCase(category, pageable));
+        }
+        return ResponseEntity.ok(shopRepo.findByInStockTrue(pageable));
     }
 
     @GetMapping("/search")

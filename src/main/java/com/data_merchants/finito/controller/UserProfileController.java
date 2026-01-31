@@ -21,14 +21,21 @@ public class UserProfileController {
     @GetMapping
     @Operation(summary = "Get Biological Profile", description = "Reads the user's weight, height, BMI, and goals.")
     public ResponseEntity<UserProfile> getProfile(
-            @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId) {
+            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId) {
         return ResponseEntity.ok(profileService.getProfile(userId));
+    }
+
+    @PostMapping
+    @Operation(summary = "Create New Profile", description = "Creates a new user profile with initial stats and goals.")
+    public ResponseEntity<UserProfile> createUser(
+            @RequestBody com.data_merchants.finito.dto.CreateUserRequest request) {
+        return ResponseEntity.ok(profileService.createUser(request));
     }
 
     @PutMapping
     @Operation(summary = "Update Profile Stats", description = "Updates weight, height, or goals. Call this when the user says 'I lost weight' or 'I want to build muscle'.")
     public ResponseEntity<UserProfile> updateProfile(
-            @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId,
+            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId,
             @RequestBody ProfileUpdateRequest request) {
         return ResponseEntity.ok(profileService.updateProfile(userId, request));
     }

@@ -22,7 +22,7 @@ public class WorkoutController {
     @PostMapping("/save")
     @Operation(summary = "Save Workout Plan", operationId = "saveWorkoutPlan", description = "Saves the AI-generated routine to the dashboard.")
     public ResponseEntity<WorkoutPlan> savePlan(
-            @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId,
+            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId,
             @RequestBody WorkoutPlanSaveRequest request) {
         return ResponseEntity.ok(workoutService.saveAIPlan(userId, request));
     }
@@ -30,14 +30,14 @@ public class WorkoutController {
     @GetMapping("/current")
     @Operation(summary = "Get Active Plan", operationId = "getCurrentWorkoutPlan", description = "Retrieves the current workout routine.")
     public ResponseEntity<WorkoutPlan> getCurrentPlan(
-            @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId) {
+            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId) {
         return ResponseEntity.ok(workoutService.getCurrentPlan(userId));
     }
 
     @GetMapping("/readiness")
     @Operation(summary = "Check Recovery Status", operationId = "getReadiness", description = "Calculates Fatigue vs Fitness to determine readiness.")
     public ResponseEntity<ReadinessResponse> getReadiness(
-            @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId) {
+            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId) {
         return ResponseEntity.ok(workoutService.calculateReadiness(userId));
     }
 }
