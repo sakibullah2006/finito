@@ -21,7 +21,7 @@ public class UserProfileController {
     @GetMapping
     @Operation(summary = "Get Biological Profile", description = "Reads the user's weight, height, BMI, and goals.")
     public ResponseEntity<UserProfile> getProfile(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId) {
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId) {
         return ResponseEntity.ok(profileService.getProfile(userId));
     }
 
@@ -35,7 +35,7 @@ public class UserProfileController {
     @PutMapping
     @Operation(summary = "Update Profile Stats", description = "Updates weight, height, or goals. Call this when the user says 'I lost weight' or 'I want to build muscle'.")
     public ResponseEntity<UserProfile> updateProfile(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId,
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId,
             @RequestBody ProfileUpdateRequest request) {
         return ResponseEntity.ok(profileService.updateProfile(userId, request));
     }

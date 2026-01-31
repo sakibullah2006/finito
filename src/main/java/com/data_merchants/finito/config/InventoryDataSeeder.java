@@ -19,6 +19,7 @@ public class InventoryDataSeeder {
             String defaultUserId = "416c69636544656661756c7455736572"; // Hex for "AliceDefaultUser"
 
             if (profileRepo.count() == 0) {
+                // Seed Alice
                 profileRepo.save(UserProfile.builder()
                         .userId(defaultUserId)
                         .email("alice@example.com")
@@ -30,6 +31,20 @@ public class InventoryDataSeeder {
                         .height(170.0) // cm
                         .build());
                 System.out.println("✅ Digital Twin 'Alice' created with ID: " + defaultUserId);
+
+                // Seed Guest (Default for anonymous API calls)
+                String guestUserId = "477565737444656661756c7455736572"; // Hex for "GuestDefaultUser"
+                profileRepo.save(UserProfile.builder()
+                        .userId(guestUserId)
+                        .email("guest@finito.ai")
+                        .displayName("Guest User")
+                        .currentGoal("Maintenance")
+                        .dietaryRestrictions("None")
+                        .dailyCalorieTarget(2000)
+                        .weight(70.0)
+                        .height(175.0)
+                        .build());
+                System.out.println("✅ Guest Profile created with ID: " + guestUserId);
             }
 
             if (inventoryRepo.count() == 0) {

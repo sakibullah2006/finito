@@ -24,7 +24,7 @@ public class ActivityController {
     @PostMapping("/log")
     @Operation(summary = "Log New Activity", description = "Records an event. Expects an 'impactScore' (1-10) based on Agent's reasoning.")
     public ResponseEntity<ActivityLog> logActivity(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId,
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId,
             @RequestBody ActivityRequest request) {
 
         // Agent decides the score. We verify it exists.
@@ -44,7 +44,7 @@ public class ActivityController {
     @GetMapping("/history")
     @Operation(summary = "Get Activity History", description = "Retrieves recent logs.")
     public ResponseEntity<List<ActivityLog>> getActivityHistory(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId,
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId,
             @RequestParam(required = false) String type) {
 
         if (type != null && !type.isBlank()) {

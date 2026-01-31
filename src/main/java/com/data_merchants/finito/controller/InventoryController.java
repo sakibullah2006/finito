@@ -25,7 +25,7 @@ public class InventoryController {
     @GetMapping
     @Operation(summary = "Get My Inventory", description = "Returns the user's current fridge status.")
     public ResponseEntity<List<InventoryItem>> getUserInventory(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId) {
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId) {
         // In a real app, use the header. For hackathon demo simplicity, we can default
         // to 'Alice'
         // if the header is missing to ensure the UI always shows data.
@@ -35,7 +35,7 @@ public class InventoryController {
     @PostMapping("/consume")
     @Operation(summary = "Consume Ingredient", description = "Reduces the quantity of an item. Simulates cooking or eating.")
     public ResponseEntity<?> consumeItem(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId,
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId,
             @RequestBody ConsumeRequest request) {
 
         String itemName = request.itemName();

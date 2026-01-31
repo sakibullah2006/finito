@@ -21,15 +21,23 @@ public class MealPlanController {
     @PostMapping("/save")
     @Operation(summary = "Save Generated Plan", operationId = "saveMealPlan", description = "Call this AFTER you (the Agent) have generated a meal plan text. This saves it to the user's dashboard.")
     public ResponseEntity<MealPlan> savePlan(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId,
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String headerUserId,
             @RequestBody MealPlanSaveRequest request) {
+
+        // Prioritize the body param if the user provided it (as per their
+        // documentation)
+        String userId = headerUserId;
+        if (request.headerXUserId() != null && !request.headerXUserId().isBlank()) {
+            userId = request.headerXUserId();
+        }
+
         return ResponseEntity.ok(planService.saveAIPlan(userId, request));
     }
 
     @GetMapping("/current")
     @Operation(summary = "Get Active Plan", operationId = "getCurrentMealPlan", description = "Retrieves the user's current active meal plan.")
     public ResponseEntity<MealPlan> getCurrentPlan(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId) {
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId) {
         return ResponseEntity.ok(planService.getCurrentPlan(userId));
     }
 }

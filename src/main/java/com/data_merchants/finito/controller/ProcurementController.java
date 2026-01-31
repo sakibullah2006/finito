@@ -22,7 +22,7 @@ public class ProcurementController {
     @PostMapping("/order")
     @Operation(summary = "Execute Smart Order", description = "Analyzes inventory gaps, validates items against the Shop Catalog, calculates total cost, and executes the purchase.")
     public ResponseEntity<OrderResponse> placeOrder(
-            @RequestHeader(value = "X-User-Id", defaultValue = "416c69636544656661756c7455736572") String userId,
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId,
             @RequestBody List<String> ingredients) {
 
         // The service now handles Shop Validation, Costing, and Inventory Restocking
