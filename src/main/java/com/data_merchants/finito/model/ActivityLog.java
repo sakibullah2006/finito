@@ -25,13 +25,11 @@ public class ActivityLog {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    // "MEAL", "WORKOUT", "SLEEP"
-    private String activityType;
+    private String activityType; // "WORKOUT", "SLEEP"
 
-    // "Ate a chicken salad", "Ran 5km"
     @Column(length = 1000)
     private String description;
 
-    // Optional: Impact score logic for advanced scoring
+    // The variable used for Mathematical Decay
     private Integer impactScore;
 }

@@ -1,5 +1,6 @@
 package com.data_merchants.finito.controller;
 
+import com.data_merchants.finito.dto.ActivityRequest;
 import com.data_merchants.finito.model.ActivityLog;
 import com.data_merchants.finito.repository.ActivityLogRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,40 +12,37 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.data_merchants.finito.dto.ActivityRequest;
-
 @RestController
 @RequestMapping("/api/v1/activity")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*") // Allow Dashboard to show these logs too
-@Tag(name = "Lifestyle Activity Tool", description = "Allows the Agent to read and write the user's daily activities (workouts, meals, sleep).")
+@CrossOrigin(origins = "*")
+@Tag(name = "Lifestyle Activity Tool", description = "Allows the Agent to read and write user activities.")
 public class ActivityController {
 
     private final ActivityLogRepository activityRepo;
 
     @PostMapping("/log")
-    @Operation(summary = "Log New Activity", description = "Records a user event. Call this when the user says they did something (e.g., 'I ate lunch', 'I went for a run').")
+    @Operation(summary = "Log New Activity", description = "Records an event. Expects an 'impactScore' (1-10) based on Agent's reasoning.")
     public ResponseEntity<ActivityLog> logActivity(
             @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId,
             @RequestBody ActivityRequest request) {
 
-        // Extract Agent's parameters
-        String type = (request.type() != null ? request.type() : "GENERAL").toUpperCase();
-        String description = request.description();
+        // Agent decides the score. We verify it exists.
+        int score = (request.impactScore() != null) ? request.impactScore() : 5;
 
         ActivityLog log = ActivityLog.builder()
                 .userId(userId)
                 .timestamp(LocalDateTime.now())
-                .activityType(type)
-                .description(description)
-                .impactScore(10) // Mock score for Hackathon simplicity
+                .activityType(request.type().toUpperCase())
+                .description(request.description())
+                .impactScore(score)
                 .build();
 
         return ResponseEntity.ok(activityRepo.save(log));
     }
 
     @GetMapping("/history")
-    @Operation(summary = "Get Activity History", description = "Retrieves recent activities. Use this to summarize what the user has done or check for consistency.")
+    @Operation(summary = "Get Activity History", description = "Retrieves recent logs.")
     public ResponseEntity<List<ActivityLog>> getActivityHistory(
             @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId,
             @RequestParam(required = false) String type) {

@@ -19,7 +19,7 @@ public class MealPlanController {
     private final MealPlanService planService;
 
     @PostMapping("/save")
-    @Operation(summary = "Save Generated Plan", description = "Call this AFTER you (the Agent) have generated a meal plan text. This saves it to the user's dashboard.")
+    @Operation(summary = "Save Generated Plan", operationId = "saveMealPlan", description = "Call this AFTER you (the Agent) have generated a meal plan text. This saves it to the user's dashboard.")
     public ResponseEntity<MealPlan> savePlan(
             @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId,
             @RequestBody MealPlanSaveRequest request) {
@@ -27,7 +27,7 @@ public class MealPlanController {
     }
 
     @GetMapping("/current")
-    @Operation(summary = "Get Active Plan", description = "Retrieves the user's current active meal plan.")
+    @Operation(summary = "Get Active Plan", operationId = "getCurrentMealPlan", description = "Retrieves the user's current active meal plan.")
     public ResponseEntity<MealPlan> getCurrentPlan(
             @RequestHeader(value = "X-User-Id", defaultValue = "Alice") String userId) {
         return ResponseEntity.ok(planService.getCurrentPlan(userId));
