@@ -20,7 +20,7 @@ target/
 *.ipr
 
 ### database
-*.db
+/hackathon.db
 
 ### NetBeans ###
 /nbproject/private/
