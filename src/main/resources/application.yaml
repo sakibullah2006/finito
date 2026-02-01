@@ -17,5 +17,6 @@ springdoc:
     path: /swagger-ui.html
 
 hackathon:
-  public-url: https://helena-basilic-nonsalubriously.ngrok-free.dev
+  public-url: 152.42.243.72:43542
+
 

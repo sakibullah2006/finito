@@ -20,7 +20,7 @@ public class WorkoutController {
     private final WorkoutService workoutService;
 
     @PostMapping("/save")
-    @Operation(summary = "Save Workout Plan", operationId = "saveWorkoutPlan", description = "Saves the AI-generated routine to the dashboard.")
+    @Operation(summary = "Save Workout Plan", operationId = "saveWorkoutPlan", description = "Saves the AI-generated workout routine to the user's dashboard. The plan content should include exercises, sets, reps, and rest periods in markdown format.")
     public ResponseEntity<WorkoutPlan> savePlan(
             @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId,
             @RequestBody WorkoutPlanSaveRequest request) {
@@ -28,14 +28,14 @@ public class WorkoutController {
     }
 
     @GetMapping("/current")
-    @Operation(summary = "Get Active Plan", operationId = "getCurrentWorkoutPlan", description = "Retrieves the current workout routine.")
+    @Operation(summary = "Get Active Workout Plan", operationId = "getCurrentWorkoutPlan", description = "Retrieves the user's current active workout routine. Returns the most recently saved workout plan, or null if none exists.")
     public ResponseEntity<WorkoutPlan> getCurrentPlan(
             @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId) {
         return ResponseEntity.ok(workoutService.getCurrentPlan(userId));
     }
 
     @GetMapping("/readiness")
-    @Operation(summary = "Check Recovery Status", operationId = "getReadiness", description = "Calculates Fatigue vs Fitness to determine readiness.")
+    @Operation(summary = "Check Recovery Status", operationId = "getReadiness", description = "Calculates the user's readiness score based on Fatigue vs Fitness metrics from recent workout and sleep data. Returns a readiness percentage and recommendation.")
     public ResponseEntity<ReadinessResponse> getReadiness(
             @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId) {
         return ResponseEntity.ok(workoutService.calculateReadiness(userId));

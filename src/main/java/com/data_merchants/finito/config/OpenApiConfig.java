@@ -18,7 +18,6 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .servers(List.of(
-                        new Server().url(publicUrl).description("IBM Watsonx Tunnel"),
-                        new Server().url("http://localhost:8080").description("Local Development")));
+                        new Server().url(publicUrl).description("IBM Watsonx Tunnel")));
     }
 }

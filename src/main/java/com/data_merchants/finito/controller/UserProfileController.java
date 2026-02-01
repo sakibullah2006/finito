@@ -39,4 +39,14 @@ public class UserProfileController {
             @RequestBody ProfileUpdateRequest request) {
         return ResponseEntity.ok(profileService.updateProfile(userId, request));
     }
+
+    @DeleteMapping
+    @Operation(summary = "Delete User Profile", description = "Permanently deletes a user profile and all associated data (inventory, meal plans, workout plans, activity logs, orders). Use with caution. AI agents can use this for account deletion requests.")
+    public ResponseEntity<?> deleteUser(
+            @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId) {
+        profileService.deleteUser(userId);
+        return ResponseEntity.ok(java.util.Map.of(
+                "status", "DELETED",
+                "message", "User profile and all associated data for '" + userId + "' has been permanently deleted."));
+    }
 }

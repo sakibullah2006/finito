@@ -19,7 +19,7 @@ public class MealPlanController {
     private final MealPlanService planService;
 
     @PostMapping("/save")
-    @Operation(summary = "Save Generated Plan", operationId = "saveMealPlan", description = "Call this AFTER you (the Agent) have generated a meal plan text. This saves it to the user's dashboard.")
+    @Operation(summary = "Save Generated Meal Plan", operationId = "saveMealPlan", description = "Call this AFTER you (the AI Agent) have generated a meal plan. This saves it to the user's dashboard. The plan content should be in markdown format with meal details, macros, and timing.")
     public ResponseEntity<MealPlan> savePlan(
             @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String headerUserId,
             @RequestBody MealPlanSaveRequest request) {
@@ -35,7 +35,7 @@ public class MealPlanController {
     }
 
     @GetMapping("/current")
-    @Operation(summary = "Get Active Plan", operationId = "getCurrentMealPlan", description = "Retrieves the user's current active meal plan.")
+    @Operation(summary = "Get Active Meal Plan", operationId = "getCurrentMealPlan", description = "Retrieves the user's current active meal plan. Returns the most recently saved plan for the user, or null if no plan exists.")
     public ResponseEntity<MealPlan> getCurrentPlan(
             @RequestHeader(value = "X-User-Id", defaultValue = "477565737444656661756c7455736572") String userId) {
         return ResponseEntity.ok(planService.getCurrentPlan(userId));

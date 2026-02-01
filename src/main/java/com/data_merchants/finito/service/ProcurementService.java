@@ -58,16 +58,32 @@ public class ProcurementService {
         double estimatedCost = 0.0;
 
         for (String item : missingIngredients) {
-            // Fuzzy search the shop (e.g., "Chicken" matches "Organic Chicken Breast")
+            // Try exact match first (case-insensitive)
+            var exactMatch = shopRepo.findByNameIgnoreCase(item);
+
+            if (exactMatch.isPresent() && exactMatch.get().isInStock()) {
+                ShopProduct shopItem = exactMatch.get();
+                validatedItems.add(shopItem.getName());
+                estimatedCost += shopItem.getPrice();
+                log.info("✅ EXACT MATCH: '{}' found in store (${})", shopItem.getName(), shopItem.getPrice());
+                continue;
+            }
+
+            // Fallback to fuzzy search (e.g., "Chicken" matches "Organic Chicken Breast")
             List<ShopProduct> matches = shopRepo.findByNameContainingIgnoreCase(item);
 
-            if (!matches.isEmpty()) {
-                ShopProduct bestMatch = matches.get(0); // Pick the first/best match
+            // Filter to only in-stock items
+            var inStockMatches = matches.stream()
+                    .filter(ShopProduct::isInStock)
+                    .toList();
+
+            if (!inStockMatches.isEmpty()) {
+                ShopProduct bestMatch = inStockMatches.get(0); // Pick the first/best match
                 validatedItems.add(bestMatch.getName());
                 estimatedCost += bestMatch.getPrice();
-                log.info("✅ STORE MATCH: '{}' matched to '{}' (${})", item, bestMatch.getName(), bestMatch.getPrice());
+                log.info("✅ FUZZY MATCH: '{}' matched to '{}' (${})", item, bestMatch.getName(), bestMatch.getPrice());
             } else {
-                log.warn("❌ UNAVAILABLE: Store does not carry '{}'. Skipping.", item);
+                log.warn("❌ UNAVAILABLE: Store does not carry '{}' or it's out of stock. Skipping.", item);
             }
         }
 
