@@ -25,6 +25,13 @@ public class UserProfileController {
         return ResponseEntity.ok(profileService.getProfile(userId));
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "Find User by Email", description = "Looks up a user profile by email address.")
+    public ResponseEntity<UserProfile> searchUser(
+            @RequestParam("email") String email) {
+        return ResponseEntity.ok(profileService.getUserByEmail(email));
+    }
+
     @PostMapping
     @Operation(summary = "Create New Profile", description = "Creates a new user profile with initial stats and goals.")
     public ResponseEntity<UserProfile> createUser(

@@ -18,7 +18,7 @@ public class UserProfile {
     @Column(nullable = false, unique = true)
     private String userId; // Links to the "Context Injected" ID (e.g., "Alice")
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     private String displayName;

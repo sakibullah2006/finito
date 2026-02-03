@@ -47,6 +47,12 @@ public class UserProfileService {
                 .orElseThrow(() -> new RuntimeException("Digital Twin not found for: " + userId));
     }
 
+    public UserProfile getUserByEmail(String email) {
+        return profileRepo.findByEmail(email)
+                .orElseThrow(() -> new com.data_merchants.finito.exception.ResourceNotFoundException(
+                        "Digital Twin not found for email: " + email));
+    }
+
     @Transactional
     public UserProfile updateProfile(String userId, ProfileUpdateRequest request) {
         UserProfile profile = getProfile(userId);

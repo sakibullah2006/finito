@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile, String> {
     // Basic CRUD is sufficient
+    java.util.Optional<UserProfile> findByEmail(String email);
 }
